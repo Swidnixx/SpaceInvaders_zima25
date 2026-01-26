@@ -19,4 +19,13 @@ public class LeaderBullet : MonoBehaviour
         //poruszanie sie w dó³
         transform.position += Vector3.down * speed * Time.deltaTime;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Player p = collision.GetComponent<Player>();
+        if( p != null )
+        {
+            FindFirstObjectByType<AlienFleet>().StopGame();
+        }
+    }
 }

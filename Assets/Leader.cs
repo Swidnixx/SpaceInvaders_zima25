@@ -24,8 +24,8 @@ public class Leader : MonoBehaviour
     //Rozpoczêcie dzia³ania dowódcy
     public void StartLeader()
     {
-        Invoke("ToggleVisible", 10); //Wywo³anie w³¹czenia widocznoœci po 10 sekundach
-        InvokeRepeating("Shoot", 11, 4); //Wywo³anie rozpoczêcia strzelania po 11 sekundach i nastêpnie strzelanie co 4
+        Invoke("ToggleVisible", 1); //Wywo³anie w³¹czenia widocznoœci po 10 sekundach
+        InvokeRepeating("Shoot", 3, 1.5f); //Wywo³anie rozpoczêcia strzelania po 11 sekundach i nastêpnie strzelanie co 4
     }
     //Wy³¹czenie dzia³añ dowódcy
     public void StopLeader()
@@ -58,6 +58,21 @@ public class Leader : MonoBehaviour
         {
             //wylicz nowy cel, który znajdzie siê po przeciwnej stronie
             target = new Vector3(target.x * -1, transform.position.y, transform.position.z);
+        }
+    }
+
+    public int life = 3;
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Bullet b = collision.gameObject.GetComponent<Bullet>();
+        if (b != null)
+        {
+            Destroy(b.gameObject);
+            life--;
+            if(life < 1)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

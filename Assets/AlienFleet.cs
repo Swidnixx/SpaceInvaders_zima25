@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AlienFleet : MonoBehaviour
 {
@@ -11,15 +12,18 @@ public class AlienFleet : MonoBehaviour
 
     public Leader leader;
 
+    public Text gameOverText;
+
     private void Start()
     {
+        gameOverText.gameObject.SetActive(false);
         InvokeRepeating(nameof(Move), moveTime, moveTime);
         leader.StartLeader();
     }
 
     private void Update()
     {
-        if(gameRun && transform.childCount == 0)
+        if(gameRun && transform.childCount == 0 && leader == null)
         {
             StopGame();
         }
@@ -29,7 +33,10 @@ public class AlienFleet : MonoBehaviour
     {
         gameRun = false;
         CancelInvoke(nameof(Move));
-        leader.StopLeader();
+        if(leader != null) leader.StopLeader();
+        gameOverText.gameObject.SetActive(true);
+
+        Destroy(FindFirstObjectByType<Player>().gameObject);
     }
 
     void Move()
